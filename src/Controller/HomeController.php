@@ -24,6 +24,15 @@ class HomeController extends AbstractController
             
         ]);
     }
+    #[Route('/array', name: 'app_array')]
+        public function array(): Response
+    {$arrays = [1,2,3,4,5];
+
+        return $this->render('home/array.html.twig', [
+            'arrays'=> $arrays
+            
+        ]);
+    }
 
  
 }
