@@ -15,7 +15,6 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
 
-
    }
         #[Route('/creat', name: 'app_creat')]
         public function creat(): Response

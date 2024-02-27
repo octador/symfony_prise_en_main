@@ -10,10 +10,10 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/materialize.min.css')}}"  media="screen,projection"/>
     <!--Custom styles-->
-    <link type="text/css" rel="stylesheet" href="assets/css/styles.css"  media="screen,projection"/>
-
+    <link type="text/css" rel="stylesheet" href=" {{asset('/assets/css/styles.css')}}" media="screen,projection"/>
+    
     <title>Cagnot'potes</title>
 </head>
 <body>
@@ -59,10 +59,15 @@
     </footer>
   
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{asset('assets/js/materialize.min.js')}}"></script>
     <!--Init & custom scripts-->
-    <script type="text/javascript" src="assets/js/scripts.js"></script>
- {% block javascripts %}{% endblock %}
+    <script type="text/javascript" src="{{asset('assets/js/scripts.js')}}"></script>
+    
+        {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}
+        {% endblock %}{% endblock %}
+    
+
 </body>
      
 
