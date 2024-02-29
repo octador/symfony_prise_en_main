@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CampaignRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,10 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(CampaignRepository $campagnRepository): Response
     {
+        $campaigns = $campagnRepository->findAll();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'campaigns'=> $campaigns
         ]);
 
    }
@@ -23,15 +26,5 @@ class HomeController extends AbstractController
             
         ]);
     }
-    #[Route('/array', name: 'app_array')]
-        public function array(): Response
-    {$arrays = [1,2,3,4,5];
-
-        return $this->render('home/array.html.twig', [
-            'arrays'=> $arrays
-            
-        ]);
-    }
-
- 
+    
 }

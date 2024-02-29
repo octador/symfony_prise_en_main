@@ -21,15 +21,15 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\ManyToMany(targetEntity: campaign::class, inversedBy: 'participants')]
-    private Collection $compaign;
+    #[ORM\ManyToMany(targetEntity: Campaign::class, inversedBy: 'participants')]
+    private Collection $campaign;
 
     #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'participant')]
     private Collection $payments;
 
     public function __construct()
     {
-        $this->compaign = new ArrayCollection();
+        $this->campaign = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
 
@@ -65,23 +65,23 @@ class Participant
     /**
      * @return Collection<int, campaign>
      */
-    public function getCompaign(): Collection
+    public function getcampaign(): Collection
     {
-        return $this->compaign;
+        return $this->campaign;
     }
 
-    public function addCompaign(campaign $compaign): static
+    public function addcampaign(Campaign $campaign): static
     {
-        if (!$this->compaign->contains($compaign)) {
-            $this->compaign->add($compaign);
+        if (!$this->campaign->contains($campaign)) {
+            $this->campaign->add($campaign);
         }
 
         return $this;
     }
 
-    public function removeCompaign(campaign $compaign): static
+    public function removecampaign(Campaign $campaign): static
     {
-        $this->compaign->removeElement($compaign);
+        $this->campaign->removeElement($campaign);
 
         return $this;
     }

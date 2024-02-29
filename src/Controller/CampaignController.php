@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Campaign;
+use App\Entity\Participant;
 use App\Form\CampaignType;
+use App\Form\ParticipantType;
 use App\Repository\CampaignRepository;
+use App\Repository\ParticipantRepository;
+use ContainerKxVltxT\getParticipantService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,13 +31,29 @@ class CampaignController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $campaign = new Campaign();
+        $participant = new Participant();
+
         $form = $this->createForm(CampaignType::class, $campaign);
+       
+
         $form->handleRequest($request);
 
+            // dd($campaign);
         if ($form->isSubmitted() && $form->isValid()) {
+            // hydratation
+          $participant = $form->get('participant')->getData();
+          $campaign->setName($participant->getName());
+          
+        //   dd($participant);
             $campaign->setCreatedAt(new DateTimeImmutable());
             $campaign->setUpdatedAt(new DateTimeImmutable());
+            
+            $campaign->addParticipant($participant);
+            $participant->addCampaign($campaign);
+
             $entityManager->persist($campaign);
+            $entityManager->persist($participant);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_campaign_index', [], Response::HTTP_SEE_OTHER);
@@ -46,20 +66,30 @@ class CampaignController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_campaign_show', methods: ['GET'])]
-    public function show(Campaign $campaign): Response
+    public function show(Campaign $campaign, ParticipantRepository $participantRepository): Response
     {
+        // $participants = $participantRepository->findBy(['campaign'=>$campaign->getId()]);
+        // dd($campaign->getParticipants());
+        $participants = $campaign->getParticipants();
+// dd($participants);
         return $this->render('campaign/show.html.twig', [
+            'participants'=> $participants,
             'campaign' => $campaign,
         ]);
+        
+        
     }
 
     #[Route('/{id}/edit', name: 'app_campaign_edit', methods: ['GET', 'POST'])]
+
     public function edit(Request $request, Campaign $campaign, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CampaignType::class, $campaign);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $campaign->setUpdatedAt(new DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_campaign_index', [], Response::HTTP_SEE_OTHER);

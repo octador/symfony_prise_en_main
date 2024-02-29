@@ -29,8 +29,8 @@
                 <td>{{ campaign.goal }}</td>
                 <td>{{ campaign.name }}</td>
                 <td>
-                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}">show</a>
-                    <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">edit</a>
+                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}" class="btn">show</a>
+                    <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}" class="btn">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_campaign_new') }}">Create new</a>
+    <a href="{{ path('app_campaign_new') }}" class="btn">Create new</a>
 {% endblock %}

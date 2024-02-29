@@ -17,12 +17,15 @@ class CampaignType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('goal')
-            ->add('name')
-            ->add('participants', EntityType::class, [
-                'class' => Participant::class,
-'choice_label' => 'id',
-'multiple' => true,
-            ])
+            // ->add('name')
+            // ->add('participants', EntityType::class, [
+            //     'class' => Participant::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
+           ->add('participant', ParticipantType::class,[
+            'data_class'=> Participant::class
+           ]);
         ;
     }
 

@@ -34,8 +34,10 @@ class Campaign
     #[ORM\Column(length: 150)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'compaign')]
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
     private Collection $participants;
+
+    private Participant $participant;
 
     public function __construct()
     {
@@ -131,7 +133,7 @@ class Campaign
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
-            $participant->addCompaign($this);
+            $participant->addcampaign($this);
         }
 
         return $this;
@@ -140,8 +142,28 @@ class Campaign
     public function removeParticipant(Participant $participant): static
     {
         if ($this->participants->removeElement($participant)) {
-            $participant->removeCompaign($this);
+            $participant->removecampaign($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of participant
+     */ 
+    public function getParticipant()
+    {
+        return $this->participant;
+    }
+
+    /**
+     * Set the value of participant
+     *
+     * @return  self
+     */ 
+    public function setParticipant($participant)
+    {
+        $this->participant = $participant;
 
         return $this;
     }
